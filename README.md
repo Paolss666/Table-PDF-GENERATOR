@@ -1,6 +1,6 @@
 # Table PDF Generator
 
-A FastAPI backend that generates a single PDF file containing front and back pages for each restaurant table. The back page is dynamically injected with a table number and a QR code per table.
+A FastAPI service that generates a single PDF file containing front and back pages for each restaurant table. The back page is dynamically injected with a table number and a QR code per table.
 
 ## How it works
 
@@ -27,25 +27,18 @@ Return PDF as download
 
 ```
 PDF_GEN/
-├── backend/
-│   ├── main.py            # FastAPI app and API endpoints
-│   ├── pdf_generator.py   # Core PDF generation logic
-│   └── requirements.txt
-└── frontend/
-    └── src/
-        ├── api/tablePdfApi.ts              # Fetch wrapper
-        ├── hooks/useGenerateTablesPdf.ts   # React hook
-        └── components/TablePdfGenerator.tsx
+├── main.py            # FastAPI app and API endpoints
+├── pdf_generator.py   # Core PDF generation logic
+└── requirements.txt
 ```
 
 ---
 
-## Backend setup
+## Setup
 
-### Requirements
+### System dependency
 
-- Python 3.11+
-- System dependency for cairosvg (Cairo library):
+`cairosvg` requires the Cairo graphics library:
 
 ```bash
 # Debian/Ubuntu
@@ -58,15 +51,14 @@ brew install cairo
 ### Install & run
 
 ```bash
-cd backend
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```
 
-API is available at `http://localhost:8000`
-Swagger UI at `http://localhost:8000/docs`
+- API: `http://localhost:8000`
+- Swagger UI: `http://localhost:8000/docs`
 
 ---
 
@@ -74,7 +66,9 @@ Swagger UI at `http://localhost:8000/docs`
 
 ### `GET /health`
 
-Returns `{ "status": "ok" }`.
+```json
+{ "status": "ok" }
+```
 
 ---
 
@@ -88,14 +82,14 @@ Generates the PDF and returns it as a binary download.
 |-------|------|----------|-------------|
 | `fronte` | File (SVG) | Yes | Front side SVG — identical for every table |
 | `retro` | File (SVG) | Yes | Back side SVG — table number + QR injected per table |
-| `table_numbers` | string | Yes | JSON array or comma-separated list of table identifiers e.g. `["1","2","Terrazza"]` |
+| `table_numbers` | string | Yes | JSON array or comma-separated list e.g. `["1","2","Terrazza"]` |
 | `wr_codes` | string | Yes | JSON array of WR codes — must match length of `table_numbers` |
 | `table_number_element_id` | string | No | SVG element ID to replace with table number text |
 | `qr_placeholder_id` | string | No | SVG element ID to replace with QR code image |
 
-**Response:** `application/pdf` — file download `tables.pdf`
+**Response:** `application/pdf` → `tables.pdf`
 
-**Example with curl:**
+**Example:**
 
 ```bash
 curl -X POST http://localhost:8000/generate-pdf \
@@ -108,37 +102,9 @@ curl -X POST http://localhost:8000/generate-pdf \
 
 ---
 
-## Frontend integration (React / TypeScript)
-
-```typescript
-import { generateTablesPdf, downloadPdfBlob } from './api/tablePdfApi';
-
-const blob = await generateTablesPdf({
-  fronteFile,   // File object from <input type="file">
-  retroFile,
-  tableNumbers: ['1', '2', '3', 'Terrazza'],
-  wrCodes: ['WR001', 'WR002', 'WR003', 'WR004'],
-});
-
-downloadPdfBlob(blob, 'tables.pdf');
-```
-
-Or use the ready-made hook:
-
-```typescript
-import { useGenerateTablesPdf } from './hooks/useGenerateTablesPdf';
-
-const { generate, isLoading, error } = useGenerateTablesPdf();
-
-await generate({ fronteFile, retroFile, tableNumbers, wrCodes });
-// triggers automatic browser download
-```
-
----
-
 ## PDF output format
 
-The generated PDF has **2 pages per table**, in order:
+2 pages per table, in order:
 
 ```
 Page 1  →  Table 1 front  (unchanged)
@@ -150,5 +116,5 @@ Page 4  →  Table 2 back
 
 ### Back page injection
 
-- **Table number** is drawn centered at ~35% from the top. Font size scales down automatically for long strings (> 9 characters) to always fit within 80% of the image width.
-- **QR code** is drawn centered at ~55% from the top with a transparent background, so it blends with the SVG design.
+- **Table number** — centered at ~35% from top. Font auto-scales for strings longer than 9 characters to always fit within 80% of the image width.
+- **QR code** — centered at ~55% from top with transparent background, blends with the SVG design.
