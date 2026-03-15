@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="595" height="842" viewBox="0 0 595 842">
+  <!-- A4 background -->
+  <rect width="595" height="842" fill="#FAFAFA" rx="12"/>
+
+  <!-- Decorative border -->
+  <rect x="20" y="20" width="555" height="802" fill="none" stroke="#C8A96E" stroke-width="3" rx="10"/>
+  <rect x="30" y="30" width="535" height="782" fill="none" stroke="#C8A96E" stroke-width="1" rx="8"/>
+
+  <!-- Restaurant name -->
+  <text x="297" y="160" font-family="Georgia, serif" font-size="52" font-weight="bold"
+        fill="#2C2C2C" text-anchor="middle" letter-spacing="4">THE KITCHEN</text>
+
+  <!-- Subtitle -->
+  <text x="297" y="210" font-family="Georgia, serif" font-size="22" font-style="italic"
+        fill="#C8A96E" text-anchor="middle">since 1985</text>
+
+  <!-- Horizontal divider -->
+  <line x1="100" y1="240" x2="495" y2="240" stroke="#C8A96E" stroke-width="1.5"/>
+
+  <!-- Decorative plate icon -->
+  <circle cx="297" cy="450" r="130" fill="#F0EBE0" stroke="#C8A96E" stroke-width="2"/>
+  <circle cx="297" cy="450" r="100" fill="none" stroke="#C8A96E" stroke-width="1"/>
+  <text x="297" y="465" font-family="Georgia, serif" font-size="48"
+        fill="#C8A96E" text-anchor="middle">TK</text>
+
+  <!-- Tagline -->
+  <text x="297" y="630" font-family="Georgia, serif" font-size="18" font-style="italic"
+        fill="#888" text-anchor="middle">Authentic cuisine • Fresh ingredients</text>
+
+  <!-- Bottom divider -->
+  <line x1="100" y1="670" x2="495" y2="670" stroke="#C8A96E" stroke-width="1.5"/>
+
+  <!-- Address -->
+  <text x="297" y="710" font-family="Arial, sans-serif" font-size="14"
+        fill="#666" text-anchor="middle">12 Main Street • London, W1A 1AA</text>
+  <text x="297" y="730" font-family="Arial, sans-serif" font-size="14"
+        fill="#666" text-anchor="middle">Tel. +44 20 1234 5678 • info@thekitchen.co.uk</text>
+</svg>
